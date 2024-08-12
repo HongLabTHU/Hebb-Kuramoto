@@ -1,7 +1,7 @@
-%% HCP ¸´ÏÖCPCAĞĞ²¨
-% ²é¿´Ô­Ê¼ĞĞ²¨
+%% HCP å¤ç°CPCAè¡Œæ³¢
+% æŸ¥çœ‹åŸå§‹è¡Œæ³¢
 clear;clc;
-load('E:\MATLAB_softhub\SPMdataset\mVEP_study\erp_sys_sim\my_paper\CPCAsurf.mat');
+load('.\utility\CPCAsurf.mat');
 for i = 1:3
     figure
     trimesh(Face_L+1., Vert_L(:,2),Vert_L(:,1),Vert_L(:,3), pca_comps(i,1:2562),'LineWidth',1.5);
@@ -12,7 +12,7 @@ end
 colorbar
 
 
-%% ²ÎÊıÉèÖÃ
+%% å‚æ•°è®¾ç½®
 node = size(pca_comps,2);
 V1 = [cos(pca_comps(1,:)') sin(pca_comps(1,:)')];
 V2 = [cos(pca_comps(2,:)') sin(pca_comps(2,:)')];
@@ -24,9 +24,9 @@ watchp = 25;
 
 Mat = [V1 V2 V3] * pinv([V1 V2 V3]);
 
-param.Mat = Mat;  % Á¬½Ó¾ØÕó
-param.inputtime = 10;    % ÊäÈëÊ±¼ä
-param.inputpulse = 0.0;     % ÊäÈë´óĞ¡
+param.Mat = Mat;  % è¿æ¥çŸ©é˜µ
+param.inputtime = 10;    % è¾“å…¥æ—¶é—´
+param.inputpulse = 0.0;     % è¾“å…¥å¤§å°
 param.inputstd = 0.3;
 param.sigma = 0.0;
 
@@ -36,7 +36,7 @@ param.b = 10 * 2*pi;
 param.alpha = 8*node;
 param.dt = 0.01;
 
-% Å·À­·¨
+% æ¬§æ‹‰æ³•
 Af = zeros(1000, 3);
 x = 2*pi*rand(1,node)'-pi;
 X = zeros(node,1002);
@@ -60,7 +60,7 @@ end
 toc
 
 
-%% ÀúÊ± 14125.090263 Ãë¡£
+%% å†æ—¶ 14125.090263 ç§’ã€‚
 tic
 inT = 0.23:0.02:0.43;
 B = zeros(length(inT),length(inT));
@@ -100,7 +100,7 @@ set(gca,'YTicklabel', {'0.42','0.40','0.38','0.36','0.34',...
 % 101 5
 % 110 6
 
-%% GPU ¼ÓËÙ°æ
+%% GPU åŠ é€Ÿç‰ˆ
 % pca_comps = gpuArray(pca_comps);
 % pca_comps = single(pca_comps);
 node = size(pca_comps,2);
@@ -143,7 +143,7 @@ set(gca,'YTicklabel', {'0.23','0.25','0.27','0.29','0.31','0.33',...
 xlabel('$\lambda_{P2}$', 'FontSize',16, 'Interpreter', 'latex');
 ylabel('$\lambda_{P1}$', 'FontSize',16, 'Interpreter', 'latex');
 
-
+%%
 hold on
 B_ = B';
 for i = 2:20
@@ -186,36 +186,13 @@ for i = 1:20
 end
 
 
-%%
-load('D:\PyCharm\Mycode\Kuramoto_sim\CPCA_data\y_k1.mat')
-y = exp(1j*y_k(8001:20000, :));
-U1 = abs(Wfunc(y,exp(1j*pca_comps(1,:))));
-U1_ = abs(Wfunc(y,exp(-1j*pca_comps(1,:))));
-U2 = abs(Wfunc(y,exp(1j*pca_comps(2,:))));
-U2_ = abs(Wfunc(y,exp(-1j*pca_comps(2,:))));
-U3 = abs(Wfunc(y,exp(1j*pca_comps(3,:))));
-U3_ = abs(Wfunc(y,exp(-1j*pca_comps(3,:))));
-imagesc(real(y)',[-pi/3, pi/3]);
-colormap(gca,winter);
-colorbar('Ticks',[-pi/3, 0, pi/3], 'TickLabels',{'-\pi/3','0','\pi/3'}, 'FontSize',10);
-axis([0 12000 1 5124])
-ylabel('nodes', 'FontSize',12, 'Interpreter', 'latex');
-xlabel('timepoints', 'FontSize',12, 'Interpreter', 'latex');
-title('Phase', 'FontSize',12, 'Interpreter', 'latex');
-xline(11050, '--r', 'linewidth', 1);
-
-plot([U1 U2 U3 U1_ U2_ U3_], 'linewidth', 1.2);
-legend('P1','P2','P3','-P1','-P2','-P3');
-ylabel('$$ \left| \rho(exp(i\theta), \Phi) \right| $$', 'FontSize',12, 'Interpreter', 'latex');
-xlabel('timepoints', 'FontSize',12, 'Interpreter', 'latex');
-title('Affinity absolute value', 'FontSize',12, 'Interpreter', 'latex');
 
 
 figure
 h=trimesh(Face_L+1., Vert_L(:,3),Vert_L(:,1),Vert_L(:,2), angle(y(1415,1:2562)),'LineWidth',1.5);
 colormap hsv
 caxis([-pi,pi])
-set(h, 'FaceAlpha', 0.1);  % ½«±íÃæµÄÍ¸Ã÷¶ÈÉèÖÃÎª0.5
-axis equal;  % ÉèÖÃ×ø±êÖá±ÈÀıÒ»ÖÂ£¬Ê¹ÇòÌå¿´ÆğÀ´¸üÔ²»¬
+set(h, 'FaceAlpha', 0.1);  % å°†è¡¨é¢çš„é€æ˜åº¦è®¾ç½®ä¸º0.5
+axis equal;  % è®¾ç½®åæ ‡è½´æ¯”ä¾‹ä¸€è‡´ï¼Œä½¿çƒä½“çœ‹èµ·æ¥æ›´åœ†æ»‘
 grid off;
 view(0, 90);
