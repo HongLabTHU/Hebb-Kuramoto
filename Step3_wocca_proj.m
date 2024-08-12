@@ -1,12 +1,12 @@
-%% ¹ì¼£
+%% è½¨è¿¹
 clear;clc
-node = 36;   % ½ÚµãÊı
+node = 36;   % èŠ‚ç‚¹æ•°
 
 F = Traveling_Mode;
 grids = F.set_grids(6);
 
-tem1 = F.rotational(grids,[0 0], 1, 1);  % Ğı×ªĞÍ
-tem2 = F.translational(grids,pi/2,2);  % Ç°ºóĞÍ
+tem1 = F.rotational(grids,[0 0], 1, 1);  % æ—‹è½¬å‹
+tem2 = F.translational(grids,pi/2,2);  % å‰åå‹
 
 tem = [tem1; conj(tem1); tem2; conj(tem2)];
 tem = tem.';
@@ -19,12 +19,12 @@ fai = tem(:,1);
 fai2 = tem(:,3);
 V1 = [real(fai) imag(fai)];
 V2 = [real(fai2) imag(fai2)];
-Mat = [0.6*V1 0.3*V2] * pinv([V1 V2]);  % Á¬½Ó¾ØÕó
+Mat = [0.6*V1 0.3*V2] * pinv([V1 V2]);  % è¿æ¥çŸ©é˜µ
 
 
-param.Mat = Mat;  % Á¬½Ó¾ØÕó
-param.inputtime = 10;    % ÊäÈëÊ±¼ä
-param.inputpulse = 0.0;     % ÊäÈë´óĞ¡
+param.Mat = Mat;  % è¿æ¥çŸ©é˜µ
+param.inputtime = 10;    % è¾“å…¥æ—¶é—´
+param.inputpulse = 0.0;     % è¾“å…¥å¤§å°
 param.inputstd = 0.3;
 param.sigma = 0.0;
 Noise = normrnd(0,2.5,node,endp+2);
@@ -55,27 +55,6 @@ figure('Position',[766.6,370.6,296,269.6])
 for bash = 1:100
     v = squeeze(exp( 1i * X(bash,2:end,:) ));
     res = wocc_projection(v, tem, 2);
-    % Colr = [160*360/239, 0/240, 197/240];
-    % Colr = [28*360/239, 204/240, 127/240];
-%     if norm(res(end, :) - [1 0]) < 2e-1
-%         Colr = [136*360/239, 240/240, 89/240];
-%     end
-%     if norm(res(end, :) - [-1 0]) < 2e-1
-%         Colr = [12*360/239, 190/240, 114/240];
-%     end
-%     if norm(res(end, :) - [0 1]) < 2e-1
-%         Colr = [28*360/239, 204/240, 127/240];
-%     end
-%     if norm(res(end, :) - [0 -1]) < 2e-1
-%         Colr = [57*360/239, 135/240, 104/240];
-%     end
-%     Colr = [Colr(1)*ones(endp,1) Colr(2)*ones(endp,1) ...
-%         linspace(0.8+0.2*Colr(3), 0.3+0.7*Colr(3), endp)'];
-    
-%     index = floor(endp*(max(P(bash,:))-P(bash,:)) / (max(P(bash,:)) - min(P(bash,:))))+1;
-%     index(index>endp) = endp;
-%     [R_, G_, B_] = hsl2rgb(Colr(index,1), Colr(index,2), Colr(index,3));
-%     scatter(res(:,1), res(:,2), 0.6, [R_, G_, B_]);
     scatter(res(:,1), res(:,2), 0.6, log10(1:endp));
     colormap summer
     hold on
@@ -87,14 +66,14 @@ xlabel('W(exp(i$\theta)$, $ \Phi_{R})$', 'FontSize',12, 'Interpreter', 'latex');
 ylabel('W(exp(i$\theta)$, $ \Phi_{D})$', 'FontSize',12, 'Interpreter', 'latex');
 title('$\lambda_{R}$=0.6, $\lambda_{D}$=0.3', 'FontSize',12, 'Interpreter', 'latex');
 
-%% ·Ö²íÍ¼
+%% åˆ†å²”å›¾
 Lamd = 0.01:0.001:0.99;
 G = zeros(72,length(Lamd));
 H = zeros(1000,length(Lamd));
 i = 1;
 for lamd = Lamd
     for alp = 200
-        Mat = [lamd*V1 (1-lamd)*V2] * pinv([V1 V2]);  % Á¬½Ó¾ØÕó
+        Mat = [lamd*V1 (1-lamd)*V2] * pinv([V1 V2]);  % è¿æ¥çŸ©é˜µ
         param.Mat = Mat;
         param.alpha = alp;
         param.node = 36;
@@ -134,14 +113,14 @@ imagesc(G,[-6 6])
 colorbar('Ticks',[-6, -3, 0, 3, 6], 'TickLabels',{'-6','-3', '0','3', '6'});
 
 
-%% Ô²ÖÜ²ÎÊı»¯
+%% åœ†å‘¨å‚æ•°åŒ–
 Phi = 0:pi/200:2*pi;
 X = imag(tem(:,3)); Y = real(tem(:,1)); Z = real(tem(:,3));
 % scatter(grids(:,1),grids(:,2),[],Z);
 InitD = zeros(length(Phi), node);
 i = 1;
 for phi = Phi
-    % ×¤²¨
+    % é©»æ³¢
     U = X;
     V = (cos(phi)*Y + sin(phi)*Z);
     InitD(i, :) = exp(1j*angle(V+1j*U)).';
@@ -161,11 +140,11 @@ title('$\lambda_{R}$=0.59, $\lambda_{D}$=0.41', 'FontSize',12, 'Interpreter', 'l
 %%
 K = zeros(3, size(InitD, 1));
 for i = 1:size(InitD, 1)
-    param.Mat = [0.36*V1 0.64*V2] * pinv([V1 V2]);  % Á¬½Ó¾ØÕó
+    param.Mat = [0.36*V1 0.64*V2] * pinv([V1 V2]);  % è¿æ¥çŸ©é˜µ
     K(1, i) = Kuramoto_potential(angle(InitD(i, :)), param);
-    param.Mat = [0.48*V1 0.52*V2] * pinv([V1 V2]);  % Á¬½Ó¾ØÕó
+    param.Mat = [0.48*V1 0.52*V2] * pinv([V1 V2]);  % è¿æ¥çŸ©é˜µ
     K(2, i) = Kuramoto_potential(angle(InitD(i, :)), param);
-    param.Mat = [0.59*V1 0.41*V2] * pinv([V1 V2]);  % Á¬½Ó¾ØÕó
+    param.Mat = [0.59*V1 0.41*V2] * pinv([V1 V2]);  % è¿æ¥çŸ©é˜µ
     K(3, i) = Kuramoto_potential(angle(InitD(i, :)), param);
 end
 plot(K')
