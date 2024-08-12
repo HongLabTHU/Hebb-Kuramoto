@@ -113,38 +113,3 @@ imagesc(G,[-6 6])
 colorbar('Ticks',[-6, -3, 0, 3, 6], 'TickLabels',{'-6','-3', '0','3', '6'});
 
 
-%% 圆周参数化
-Phi = 0:pi/200:2*pi;
-X = imag(tem(:,3)); Y = real(tem(:,1)); Z = real(tem(:,3));
-% scatter(grids(:,1),grids(:,2),[],Z);
-InitD = zeros(length(Phi), node);
-i = 1;
-for phi = Phi
-    % 驻波
-    U = X;
-    V = (cos(phi)*Y + sin(phi)*Z);
-    InitD(i, :) = exp(1j*angle(V+1j*U)).';
-    %     V = (-sin(phi)*Y + cos(phi)*Z);
-    %     InitD(i, :) = exp(1j*angle(V+1j*U)).';
-    res = wocc_projection(InitD(i, :), tem, 2);
-    K = Kuramoto_potential(angle(InitD(i, :)), param);
-    i= i + 1;
-    hold on
-    scatter(res(1), res(2), 15, K, 'filled');
-end
-
-xlabel('W(exp(i$\theta)$, exp(i$\varphi_{R})$)', 'FontSize',12, 'Interpreter', 'latex');
-ylabel('W(exp(i$\theta)$, exp(i$\varphi_{D})$)', 'FontSize',12, 'Interpreter', 'latex');
-title('$\lambda_{R}$=0.59, $\lambda_{D}$=0.41', 'FontSize',12, 'Interpreter', 'latex');
-
-%%
-K = zeros(3, size(InitD, 1));
-for i = 1:size(InitD, 1)
-    param.Mat = [0.36*V1 0.64*V2] * pinv([V1 V2]);  % 连接矩阵
-    K(1, i) = Kuramoto_potential(angle(InitD(i, :)), param);
-    param.Mat = [0.48*V1 0.52*V2] * pinv([V1 V2]);  % 连接矩阵
-    K(2, i) = Kuramoto_potential(angle(InitD(i, :)), param);
-    param.Mat = [0.59*V1 0.41*V2] * pinv([V1 V2]);  % 连接矩阵
-    K(3, i) = Kuramoto_potential(angle(InitD(i, :)), param);
-end
-plot(K')
