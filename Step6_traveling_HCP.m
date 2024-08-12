@@ -187,12 +187,3 @@ end
 
 
 
-
-figure
-h=trimesh(Face_L+1., Vert_L(:,3),Vert_L(:,1),Vert_L(:,2), angle(y(1415,1:2562)),'LineWidth',1.5);
-colormap hsv
-caxis([-pi,pi])
-set(h, 'FaceAlpha', 0.1);  % 将表面的透明度设置为0.5
-axis equal;  % 设置坐标轴比例一致，使球体看起来更圆滑
-grid off;
-view(0, 90);
