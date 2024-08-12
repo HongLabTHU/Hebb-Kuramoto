@@ -1,26 +1,14 @@
-%% ÑéÖ¤ hebbian ·¨ affinities ºÍ ÄÜÁ¿º¯ÊıÖ®¼äµÄ¹ØÏµ
-% »ùÓÚ adaptive hebbian like ¹¹ÔìÁ¬½Ó¾ØÕó
-% A = cos(angle(fai)-angle(fai)');
-% »ò A = [real(fai) imag(fai)] * [real(fai) imag(fai)]';
-% ÉÏÊö·½·¨ĞèÒªÂú×ãÁ½¸öÑÏ¿ÁµÄÌõ¼ş£º
-% 1. ¸´ÊıÏàĞòµÄÊµ²¿ºÍĞé²¿Õı½»
-% 2. ¸´ÊıÏàĞòµÄÊµ²¿ºÍĞé²¿µÄ¶ş·¶ÊıÏàµÈ
-
-% ²»¹ı²»ĞèÒªÂú×ãÉÏÊöÌõ¼ş¹ØÏµÒ²³ÉÁ¢£¬Ö»ÊÇ²»ÄÜÎ¬³ÖÕâ¸öÏàĞò
-
-utility
-
-%% ¼ÇÒäµ¥Ò»ÏàĞò
+%% memory two different pahse patterns
 clear;clc
 
-node = 36;   % ½ÚµãÊı
+node = 36;   % èŠ‚ç‚¹æ•°
 param.alpha = 200;
 param.node = node;
 
 F = Traveling_Mode;
 grids = F.set_grids(6);
-tem1 = F.rotational(grids,[0 0], 1, 1);  % Ğı×ªĞÍ
-tem2 = F.translational(grids,pi/2, 2);  % Ç°ºóĞÍ
+tem1 = F.rotational(grids,[0 0], 1, 1);  % æ—‹è½¬å‹
+tem2 = F.translational(grids,pi/2, 2);  % å‰åå‹
 
 
 fai = conj(tem1');
@@ -28,7 +16,7 @@ fai = conj(tem1');
 A = [real(fai) imag(fai)] * pinv([real(fai) imag(fai)]);
 param.Mat = A;
 
-% ÑéÖ¤Á½¸öÌõ¼ş
+% éªŒè¯ä¸¤ä¸ªæ¡ä»¶
 % real(fai)'*imag(fai)
 % norm(real(fai))
 % norm(imag(fai))
@@ -68,7 +56,7 @@ colormap cool;
 imagesc(sl, sl, Rtem);
 title('Orthogonal matrix')
 grid on
-% ÔÚÃ¿¸öÏñËØÉÏÌí¼ÓÊıÖµ
+% åœ¨æ¯ä¸ªåƒç´ ä¸Šæ·»åŠ æ•°å€¼
 for i = 1:size(Rtem, 1)
     for j = 1:size(Rtem, 2)
         text(sl(j), sl(i), num2str(Rtem(i, j),4), 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
@@ -82,17 +70,17 @@ bar(sum(Rtem.^2).^0.5);
 title('norm of  Re\phi  Im\phi ')
 
 
-%% ÑéÖ¤Õı½»ĞÔºÍ·¶ÊıÌõ¼ş
+%% éªŒè¯æ­£äº¤æ€§å’ŒèŒƒæ•°æ¡ä»¶
 clear;clc
 
-node = 36;   % ½ÚµãÊı
+node = 36;   % èŠ‚ç‚¹æ•°
 param.alpha = 200;
 param.node = node;
 
 F = Traveling_Mode;
 grids = F.set_grids(6);
-tem1 = F.rotational(grids,[0 0], 1, 1);  % Ğı×ªĞÍ
-tem2 = F.translational(grids,pi/2,2);  % Ç°ºóĞÍ
+tem1 = F.rotational(grids,[0 0], 1, 1);  % æ—‹è½¬å‹
+tem2 = F.translational(grids,pi/2,2);  % å‰åå‹
 
 tem = [tem1; conj(tem1); tem2; conj(tem2)];
 tem = conj(tem');
@@ -110,7 +98,7 @@ set(gca,'YTicklabel', {'Re(R1)','Im(R1)','Re(D1)','Im(D1)'});
 title('Orthogonal matrix')
 
 
-% ÔÚÃ¿¸öÏñËØÉÏÌí¼ÓÊıÖµ
+% åœ¨æ¯ä¸ªåƒç´ ä¸Šæ·»åŠ æ•°å€¼
 for i = 1:size(Rtem, 1)
     for j = 1:size(Rtem, 2)
         text(sl(j), sl(i), num2str(Rtem(i, j),4), 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
@@ -125,12 +113,12 @@ bar(sum(Rtem.^2).^0.5);
 title('norm of R1-R2-D1-D2')
 
 
-%% ÑéÖ¤Î±Äæ·¨ affinities ºÍ ÄÜÁ¿º¯ÊıÖ®¼äµÄ¹ØÏµ
-fai = tem(:,1);  % »ùÓÚÄ£°å4¹¹Ôì
+%% éªŒè¯ä¼ªé€†æ³• affinities å’Œ èƒ½é‡å‡½æ•°ä¹‹é—´çš„å…³ç³»
+fai = tem(:,1);  % åŸºäºæ¨¡æ¿4æ„é€ 
 fai2 = tem(:,3);
 V1 = [real(fai) imag(fai)];
 V2 = [real(fai2) imag(fai2)];
-Mat = [0.5*V1 0.5*V2] * pinv([V1 V2]);  % Á¬½Ó¾ØÕó
+Mat = [0.5*V1 0.5*V2] * pinv([V1 V2]);  % è¿æ¥çŸ©é˜µ
 
 param.Mat = Mat;
 
@@ -172,11 +160,11 @@ xlabel('P($\theta$, A)', 'FontSize',14,'Interpreter', 'latex');
 title('memorize two patterns', 'FontSize',14,'Interpreter', 'latex');
 text(-30, -18, '$r^2=0.947 ^{***}$', 'FontSize',12,'Interpreter', 'latex');
 
-%% ÄÜÁ¿º¯Êı¹ØÏµ
+%% èƒ½é‡å‡½æ•°å…³ç³»
 U = [];
 lamda = 0.01:0.01:0.99;
 for gg = 1:length(lamda)
-    param.Mat = [lamda(gg)*V1 (1-lamda(gg))*V2] * pinv([V1 V2]);  % Á¬½Ó¾ØÕó
+    param.Mat = [lamda(gg)*V1 (1-lamda(gg))*V2] * pinv([V1 V2]);  % è¿æ¥çŸ©é˜µ
     U(gg,1) = Kuramoto_potential(angle(fai)',param);
     U(gg,2) = Kuramoto_potential(angle(fai2)',param);
 end
