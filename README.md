@@ -7,7 +7,7 @@ Ruwei Yao, Yichao Li, Xintong Yao, Kang Wang, Jingling Qu, Xiaolong Zou, and Bo 
 School of Biomedical Engineering, Tsinghua University, Beijing, China  
 Published in Physical Review E, 2025  
 [DOI: 10.1103/PhysRevE.111.044310](10.1103/PhysRevE.111.044310)
-
+![Example Image](fig4.png)
 ## Overview
 
 This project implements a computational framework that:
@@ -23,3 +23,5 @@ This project implements a computational framework that:
 - **Bifurcation Analysis**: Study high-dimensional bifurcations in attractor networks
 - **fMRI Modeling**: Reproduce dominant wave patterns from human brain imaging data
 - **Visualization**: Tools for phase pattern visualization and analysis
+
+
