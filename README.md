@@ -7,7 +7,7 @@ Ruwei Yao, Yichao Li, Xintong Yao, Kang Wang, Jingling Qu, Xiaolong Zou, and Bo 
 School of Biomedical Engineering, Tsinghua University, Beijing, China  
 Published in Physical Review E, 2025  
 [DOI: 10.1103/PhysRevE.111.044310](10.1103/PhysRevE.111.044310)
-![Example Image](fig4.png)
+![Example Image](Fig4.png)
 ## Overview
 
 This project implements a computational framework that:
