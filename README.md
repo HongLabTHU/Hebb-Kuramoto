@@ -6,7 +6,7 @@ This repository contains the implementation of the Hopfield-Kuramoto model for s
 Ruwei Yao, Yichao Li, Xintong Yao, Kang Wang, Jingling Qu, Xiaolong Zou, and Bo Hong  
 School of Biomedical Engineering, Tsinghua University, Beijing, China  
 Published in Physical Review E, 2025  
-[DOI: 10.1103/PhysRevE.111.044310](https://doi.org/10.1103/PhysRevE.111.044310)
+[DOI: 10.1103/PhysRevE.111.044310](10.1103/PhysRevE.111.044310)
 
 ## Overview
 
